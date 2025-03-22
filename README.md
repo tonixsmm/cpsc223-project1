@@ -4,11 +4,16 @@
 * Tony Nguyen
 * Anh Ha
 * Nathan Doan
-* Chris Wu
+* Chris Wong
 
 ## Links
 * [Google Drive](https://drive.google.com/drive/folders/1LjX7IyYtBnobgSr9UCf3vwoGQPKegDV-?usp=share_link)
 
 ## How to run
-tbd
 
+# test_sorting.cpp
+g++ doubly_linked_list.cpp test_sorting.cpp -o run //currently just DLL sorting; need to add vector sorters' test functions and implementation within int Main (TONY)
+
+To test the sorting algorithms implemented for the `DoublyLinkedList` class, compile and run the `test_sorting.cpp` file with the `doubly_linked_list.cpp` file:
+* g++ doubly_linked_list.cpp test_sorting.cpp -o run
+* B./run

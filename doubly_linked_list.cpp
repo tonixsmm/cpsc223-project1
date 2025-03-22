@@ -238,3 +238,101 @@ void DoublyLinkedList::print_reverse() {
 DLLNode* DoublyLinkedList::get_tail() {
     return tail;
 }
+
+void DoublyLinkedList::merge_sort() {
+    head = merge_sort(head);
+    DLLNode* iter = head;
+    while (iter->next != nullptr) {
+        iter = iter->next;
+    }
+    tail = iter;
+}
+
+DLLNode* DoublyLinkedList::merge(DLLNode* left, DLLNode* right) {
+    DLLNode* result = nullptr;
+    if (left == nullptr) {
+        return right;
+    }
+    if (right == nullptr) {
+        return left;
+    }
+    if (left->value <= right->value) {
+        result = left;
+        result->next = merge(left->next, right);
+        result->next->prev = result;
+    }
+    else {
+        result = right;
+        result->next = merge(left, right->next);
+        result->next->prev = result;
+    }
+    return result;
+}
+
+DLLNode* DoublyLinkedList::merge_sort(DLLNode* head) {
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+    DLLNode* middle = head;
+    DLLNode* fast = head->next;
+    while (fast != nullptr) {
+        fast = fast->next;
+        if (fast != nullptr) {
+            fast = fast->next;
+            middle = middle->next;
+        }
+    }
+    DLLNode* left = head;
+    DLLNode* right = middle->next;
+    middle->next = nullptr;
+    left = merge_sort(left);
+    right = merge_sort(right);
+    return merge(left, right);
+}
+
+DLLNode* DoublyLinkedList::partition(DLLNode* low, DLLNode* high) {
+    int pivot = high->value;
+    DLLNode* i = low->prev;
+    for (DLLNode* j = low; j != high; j = j->next) {
+        if (j->value < pivot) {
+            i = (i == nullptr) ? low : i->next; // Move i to next node
+            int temp = i->value; // Swap i and j values
+            i->value = j->value;
+            j->value = temp;
+        }
+    }
+    i = (i == nullptr) ? low : i->next; // Move i to next node
+    int temp = i->value;   // Swap pivot to its correct position
+    i->value = high->value;
+    high->value = temp;
+    return i;
+}
+
+void DoublyLinkedList::quick_sort(DLLNode* low, DLLNode* high) {
+    if (low != nullptr && high != nullptr && low != high && low != high->next) {
+        DLLNode* pivot = partition(low, high);
+        quick_sort(low, pivot->prev);
+        quick_sort(pivot->next, high);
+    }
+}
+
+void DoublyLinkedList::quick_sort() {
+    quick_sort(head, tail); // Call recursive quick_sort with head and tail
+}
+
+void DoublyLinkedList::insertion_sort() {
+    if (head == nullptr || head->next == nullptr) {
+        return;
+    }
+    DLLNode* iter = head->next;
+    while (iter != nullptr) {
+        DLLNode* temp = iter;
+        while (temp->prev != nullptr && temp->value < temp->prev->value) {
+            int temp_val = temp->value;
+            temp->value = temp->prev->value;
+            temp->prev->value = temp_val;
+            temp = temp->prev;
+        }
+        iter = iter->next;
+    }
+}
