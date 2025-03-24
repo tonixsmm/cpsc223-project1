@@ -4,10 +4,11 @@ int main() {
     Evaluator evaluator;
     evaluator.ingest("evaluation_cases.txt");
 
-    evaluator.merge_comparison();
-    evaluator.quick_comparison();
-    evaluator.insertion_comparison();
+    // Run the sorting comparisons 10 times
+    evaluator.run_multiple_times(10);
 
+    // Evaluate and print the results
     evaluator.evaluate();
+
     return 0;
 }

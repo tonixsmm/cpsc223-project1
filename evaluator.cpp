@@ -4,6 +4,7 @@
 #include <fstream>
 #include <chrono>
 #include <iostream>
+#include <sstream> // Include this header for std::istringstream
 
 void Evaluator::ingest(const std::string& filename) {
     std::ifstream file(filename);
@@ -13,7 +14,6 @@ void Evaluator::ingest(const std::string& filename) {
     }
 
     std::vector<int> vec;
-    std::string line;
     int group_sizes[] = {1000, 10000, 100000};  // Sizes of the groups
     int group_count = 3;  // Number of groups
 
@@ -21,15 +21,16 @@ void Evaluator::ingest(const std::string& filename) {
         for (int i = 0; i < 4; ++i) {  // Each group has 4 lines
             vec.clear();
             vec.reserve(group_sizes[group]);
+            
             for (int j = 0; j < group_sizes[group]; ++j) {
                 int num;
                 if (!(file >> num)) {
                     std::cerr << "Error reading number from file. Group: " << group 
                               << ", Line: " << i << ", Number: " << j << std::endl;
-                    std::cerr << "Line content: " << line << std::endl;
                     return;
                 }
                 vec.push_back(num);
+                std::cout << "DEBUG: " << num << " ";
             }
             cases.push_back(vec);  // Store each case in the cases vector
             std::cout << "Loaded group " << group << ", line " << i << " with " 
@@ -50,7 +51,7 @@ void Evaluator::merge_comparison() {
         auto end = std::chrono::high_resolution_clock::now();
         double time = std::chrono::duration<double>(end - start).count();
         merge_times.push_back(time);
-        std::cout << "Vector merge sort time: " << time << " seconds\n";
+        std::cout << "DEBUG:Vector merge sort time: " << time << " seconds\n";
 
         // Doubly linked list merge sort timing
         DoublyLinkedList dll;
@@ -60,7 +61,7 @@ void Evaluator::merge_comparison() {
         end = std::chrono::high_resolution_clock::now();
         time = std::chrono::duration<double>(end - start).count();
         merge_times.push_back(time);
-        std::cout << "Doubly linked list merge sort time: " << time << " seconds\n";
+        std::cout << "DEBUG:Doubly linked list merge sort time: " << time << " seconds\n";
     }
 }
 
@@ -74,7 +75,7 @@ void Evaluator::quick_comparison() {
         auto end = std::chrono::high_resolution_clock::now();
         double time = std::chrono::duration<double>(end - start).count();
         quick_times.push_back(time);
-        std::cout << "Vector quick sort time: " << time << " seconds\n";
+        std::cout << "DEBUG:Vector quick sort time: " << time << " seconds\n";
 
         // Doubly linked list quick sort timing
         DoublyLinkedList dll;
@@ -84,7 +85,7 @@ void Evaluator::quick_comparison() {
         end = std::chrono::high_resolution_clock::now();
         time = std::chrono::duration<double>(end - start).count();
         quick_times.push_back(time);
-        std::cout << "Doubly linked list quick sort time: " << time << " seconds\n";
+        std::cout << "DEBUG:Doubly linked list quick sort time: " << time << " seconds\n";
     }
 }
 
@@ -98,7 +99,7 @@ void Evaluator::insertion_comparison() {
         auto end = std::chrono::high_resolution_clock::now();
         double time = std::chrono::duration<double>(end - start).count();
         insertion_times.push_back(time);
-        std::cout << "Vector insertion sort time: " << time << " seconds\n";
+        std::cout << "DEBUG:Vector insertion sort time: " << time << " seconds\n";
 
         // Doubly linked list insertion sort timing
         DoublyLinkedList dll;
@@ -108,47 +109,83 @@ void Evaluator::insertion_comparison() {
         end = std::chrono::high_resolution_clock::now();
         time = std::chrono::duration<double>(end - start).count();
         insertion_times.push_back(time);
-        std::cout << "Doubly linked list insertion sort time: " << time << " seconds\n";
+        std::cout << "DEBUG:Doubly linked list insertion sort time: " << time << " seconds\n";
     }
 }
 
 // Runs each sorting algorithm multiple times and stores the timing data
 void Evaluator::run_multiple_times(int runs) {
     for (int i = 0; i < runs; ++i) {
+        std::cout << "Running iteration " << i + 1 << "...\n";
+
         merge_comparison();
+        if (merge_times.empty()) std::cout << "DEBUG: merge_times is empty!\n";
         merge_times_runs.push_back(merge_times);
         merge_times.clear();
 
         quick_comparison();
+        if (quick_times.empty()) std::cout << "DEBUG: quick_times is empty!\n";
         quick_times_runs.push_back(quick_times);
         quick_times.clear();
 
         insertion_comparison();
+        if (insertion_times.empty()) std::cout << "DEBUG: insertion_times is empty!\n";
         insertion_times_runs.push_back(insertion_times);
         insertion_times.clear();
     }
 }
 
-// Prints a table of timing data for each sort
+// // Prints a table of timing data for each sort
 void Evaluator::evaluate() {
+    if (merge_times_runs.empty() && quick_times_runs.empty() && insertion_times_runs.empty()) {
+        std::cout << "DEBUG: No sorting data collected. Did you call run_multiple_times()?\n";
+        return;
+    }
+
     std::cout << "Merge Sort Times (seconds):\n";
+    std::cout << "Vector:\n";
     for (const auto& run : merge_times_runs) {
-        for (double time : run) {
-            std::cout << time << " ";
+        for (size_t i = 0; i < run.size(); i += 2) {  // Assuming vector times are stored first
+            std::cout << run[i] << " ";
         }
         std::cout << "\n";
     }
+    std::cout << "Doubly Linked List:\n";
+    for (const auto& run : merge_times_runs) {
+        for (size_t i = 1; i < run.size(); i += 2) {  // Assuming doubly linked list times are stored second
+            std::cout << run[i] << " ";
+        }
+        std::cout << "\n";
+    }
+
     std::cout << "\nQuick Sort Times (seconds):\n";
+    std::cout << "Vector:\n";
     for (const auto& run : quick_times_runs) {
-        for (double time : run) {
-            std::cout << time << " ";
+        for (size_t i = 0; i < run.size(); i += 2) {  // Assuming vector times are stored first
+            std::cout << run[i] << " ";
         }
         std::cout << "\n";
     }
+    std::cout << "Doubly Linked List:\n";
+    for (const auto& run : quick_times_runs) {
+        for (size_t i = 1; i < run.size(); i += 2) {  // Assuming doubly linked list times are stored second
+            std::cout << run[i] << " ";
+        }
+        std::cout << "\n";
+    }
+
     std::cout << "\nInsertion Sort Times (seconds):\n";
+    std::cout << "Vector:\n";
     for (const auto& run : insertion_times_runs) {
-        for (double time : run) {
-            std::cout << time << " ";
+        for (size_t i = 0; i < run.size(); i += 2) {  // Assuming vector times are stored first
+            std::cout << run[i] << " ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "Doubly Linked List:\n";
+    for (const auto& run : insertion_times_runs) {
+        for (size_t i = 1; i < run.size(); i += 2) {  // Assuming doubly linked list times are stored second
+            std::cout << run[i] << " ";
         }
         std::cout << "\n";
     }
