@@ -28,6 +28,8 @@ private:
     std::vector<std::vector<double>> merge_times_runs;
     std::vector<std::vector<double>> quick_times_runs;
     std::vector<std::vector<double>> insertion_times_runs;
+
+    void printSortResults(const std::string& sortName, const std::vector<std::vector<double>>& runs, std::ofstream& csvFileName);
 };
 
 #endif
