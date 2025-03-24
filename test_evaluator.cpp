@@ -1,3 +1,4 @@
+// test_evaluator.cpp
 #include "evaluator.hpp"
 #include <cassert>
 #include <iostream>
@@ -8,7 +9,7 @@ void test_ingest() {
     evaluator.ingest("evaluation_cases.txt");
 
     // Check if cases were ingested correctly
-    assert(!evaluator.cases.empty());
+    assert(!evaluator.get_cases().empty());
     std::cout << "Ingest test passed.\n";
 }
 
@@ -19,7 +20,7 @@ void test_merge_comparison() {
     evaluator.merge_comparison();
 
     // Check if merge_times were recorded
-    assert(!evaluator.merge_times.empty());
+    assert(!evaluator.get_merge_times().empty());
     std::cout << "Merge comparison test passed.\n";
 }
 
@@ -30,7 +31,7 @@ void test_quick_comparison() {
     evaluator.quick_comparison();
 
     // Check if quick_times were recorded
-    assert(!evaluator.quick_times.empty());
+    assert(!evaluator.get_quick_times().empty());
     std::cout << "Quick comparison test passed.\n";
 }
 
@@ -41,7 +42,7 @@ void test_insertion_comparison() {
     evaluator.insertion_comparison();
 
     // Check if insertion_times were recorded
-    assert(!evaluator.insertion_times.empty());
+    assert(!evaluator.get_insertion_times().empty());
     std::cout << "Insertion comparison test passed.\n";
 }
 
