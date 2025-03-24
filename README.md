@@ -11,6 +11,13 @@
 
 ## How to run
 
+### Testing Sorting
+To test the sorting algorithms, run:
+```bash
+g++ -o test_sorting test_sorting.cpp doubly_linked_list.cpp vector_sorter.cpp
+./test_sorting
+```
+
 ### test_sorting.cpp
 g++ doubly_linked_list.cpp test_sorting.cpp -o run //currently just DLL sorting; need to add vector sorters' test functions and implementation within int Main (TONY)
 
