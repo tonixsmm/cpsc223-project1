@@ -1,7 +1,6 @@
 #include "evaluator.hpp"
 #include "vector_sorter.hpp"
 #include "doubly_linked_list.hpp"
-#include <fstream>
 #include <chrono>
 #include <iostream>
 #include <fstream>  
@@ -117,7 +116,7 @@ void Evaluator::insertion_comparison() {
 
 // Runs each sorting algorithm multiple times and stores the timing data
 void Evaluator::run_multiple_times(int runs) {
-    for (int i = 0; i < runs; ++i) {
+    for (int i = 0; i < runs; i++) {
         std::cout << "Running iteration " << i + 1 << "...\n";
 
         merge_comparison();
