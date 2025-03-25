@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>  
 #include <iomanip>
-#include <sstream> // Include this header for std::istringstream
+#include <sstream> 
 #include <vector>
 
 void Evaluator::ingest(const std::string& filename) {
@@ -34,9 +34,7 @@ void Evaluator::ingest(const std::string& filename) {
         }
         cases.push_back(vec);
 
-        // (Optional) debug: print info about this line
-        std::cout << "DEBUG: Loaded line with " << vec.size() 
-                  << " integers." << std::endl;
+        // std::cout << "DEBUG: Loaded line with " << vec.size() << " integers." << std::endl;
     }
 
     std::cout << "Total cases loaded: " << cases.size() << std::endl;
@@ -137,64 +135,6 @@ void Evaluator::run_multiple_times(int runs) {
     }
 }
 
-// // Prints a table of timing data for each sort
-// void Evaluator::evaluate() {
-//     if (merge_times_runs.empty() && quick_times_runs.empty() && insertion_times_runs.empty()) {
-//         std::cout << "DEBUG: No sorting data collected. Did you call run_multiple_times()?\n";
-//         return;
-//     }
-
-//     std::cout << "Merge Sort Times (seconds):\n";
-//     std::cout << "Vector:\n";
-//     for (const auto& run : merge_times_runs) {
-//         for (size_t i = 0; i < run.size(); i += 2) {  // Assuming vector times are stored first
-//             std::cout << run[i] << " ";
-//         }
-//         std::cout << "\n";
-//     }
-//     std::cout << "Doubly Linked List:\n";
-//     for (const auto& run : merge_times_runs) {
-//         for (size_t i = 1; i < run.size(); i += 2) {  // Assuming doubly linked list times are stored second
-//             std::cout << run[i] << " ";
-//         }
-//         std::cout << "\n";
-//     }
-
-//     std::cout << "\nQuick Sort Times (seconds):\n";
-//     std::cout << "Vector:\n";
-//     for (const auto& run : quick_times_runs) {
-//         for (size_t i = 0; i < run.size(); i += 2) {  // Assuming vector times are stored first
-//             std::cout << run[i] << " ";
-//         }
-//         std::cout << "\n";
-//     }
-//     std::cout << "Doubly Linked List:\n";
-//     for (const auto& run : quick_times_runs) {
-//         for (size_t i = 1; i < run.size(); i += 2) {  // Assuming doubly linked list times are stored second
-//             std::cout << run[i] << " ";
-//         }
-//         std::cout << "\n";
-//     }
-
-//     std::cout << "\nInsertion Sort Times (seconds):\n";
-//     std::cout << "Vector:\n";
-//     for (const auto& run : insertion_times_runs) {
-//         for (size_t i = 0; i < run.size(); i += 2) {  // Assuming vector times are stored first
-//             std::cout << run[i] << " ";
-//         }
-//         std::cout << "\n";
-//     }
-//     std::cout << "Doubly Linked List:\n";
-//     for (const auto& run : insertion_times_runs) {
-//         for (size_t i = 1; i < run.size(); i += 2) {  // Assuming doubly linked list times are stored second
-//             std::cout << run[i] << " ";
-//         }
-//         std::cout << "\n";
-//     }   
-// }
-
-// merge_times_runs, quick_times_runs, insertion_times_runs are assumed to be members of Evaluator
-
 void Evaluator::printSortResults(const std::string& sortName, const std::vector<std::vector<double>>& runs, std::ofstream& csvFileName) {
     if (runs.empty()) {
         std::cout << sortName << " - No data.\n\n";
@@ -223,7 +163,7 @@ void Evaluator::printSortResults(const std::string& sortName, const std::vector<
             // print line
             std::cout << std::left
                       << std::setw(10) << runIdx
-                      << std::setw(10) << (i / 2)  // Pair index
+                      << std::setw(10) << (i / 2)  
                       << std::setw(15) << vectorTime
                       << std::setw(15) << dllTime
                       << "\n";
