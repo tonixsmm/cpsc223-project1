@@ -19,3 +19,14 @@ test_vector_run:
 
 test_vector_clean:
 	@rm -f tests
+
+evaluate: evaluate_compile evaluate_run evaluate_clean
+
+evaluate_compile:
+	@g++ -std=c++11 main.cpp evaluator.cpp vector_sorter.cpp doubly_linked_list.cpp -o evaluate
+
+evaluate_run:
+	@./evaluate
+
+evaluate_clean:
+	@rm -f evaluate
