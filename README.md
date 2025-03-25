@@ -13,16 +13,12 @@
 ### Run evaluate
 Run `make evaluate`.
 
-### Testing Sorting
+### Test Doubly Linked List Sorting
 To test the sorting algorithms, run:
 ```bash
 g++ -o test_sorting test_sorting.cpp doubly_linked_list.cpp vector_sorter.cpp
 ./test_sorting
 ```
-
-### test_sorting.cpp
-g++ doubly_linked_list.cpp test_sorting.cpp -o run 
-* ./run
 
 ### Test Vector Sorting
 Run `make test_vector`.
